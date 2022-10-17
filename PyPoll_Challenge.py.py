@@ -6,7 +6,7 @@ import csv
 import os
 
 # Add a variable to load a file from a path.
-file_to_load = os.path.join("..", "Resources", "election_results.csv")
+file_to_load = os.path.join("Resources", "election_results.csv")
 # Add a variable to save the file to a path.
 file_to_save = os.path.join("analysis", "election_analysis.txt")
 
@@ -19,7 +19,7 @@ candidate_options = []
 candidate_votes = {}
 
 # 1: Create a county list and county votes dictionary.
-county_list = ()
+county_list = []
 counties_dict = {}
 
 # Track the winning candidate, vote count and percentage
@@ -32,6 +32,8 @@ largest_county_turnout = ""
 largest_county_count = 0
 
 # Read the csv and convert it into a list of dictionaries
+path=os.getcwd()
+print(path)
 with open(file_to_load) as election_data:
     reader = csv.reader(election_data)
 
@@ -40,7 +42,6 @@ with open(file_to_load) as election_data:
 
     # For each row in the CSV file.
     for row in reader:
-
         # Add to the total vote count
         total_votes = total_votes + 1
 
@@ -92,12 +93,12 @@ with open(file_to_save, "w") as txt_file:
     txt_file.write(election_results)
 
     # 6a: Write a for loop to get the county from the county dictionary.
-    For county_name in counties_dict:
+    for county_name in counties_dict:
 
         # 6b: Retrieve the county vote count.
         county_votes = counties_dict.get(county_name)
         # 6c: Calculate the percentage of votes for the county.
-        county_percentage = float(county_votes) / float(total_county_votes) * 100
+        county_percentage = float(county_votes) / float(total_votes) * 100
         county_results = (
             f"{county_name}; {county_percentage:.1f}% ({county_votes:,})\n")
         
@@ -108,6 +109,7 @@ with open(file_to_save, "w") as txt_file:
          # 6f: Write an if statement to determine the winning county and get its vote count.
         if (county_votes > largest_county_count):
             largest_county_count = county_votes
+            largest_county_turnout = county_name
     # 7: Print the county with the largest turnout to the terminal.
     largest_county_turnout_summary = (
         f"Largest County Turnout: {largest_county_turnout}\n")
